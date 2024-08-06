@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>素因数分解デモ</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #e0f7fa; /* 水色の背景 */
+            color: #00796b;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+        h1 {
+            color: #004d40;
+        }
+        form {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            text-align: center;
+        }
+        label, input, button {
+            display: block;
+            width: 100%;
+            margin-bottom: 15px;
+        }
+        input[type="text"] {
+            padding: 10px;
+            border: 1px solid #b2dfdb;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #00796b;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            box-sizing: border-box;
+        }
+        button:hover {
+            background-color: #004d40;
+        }
+        #result {
+            margin-top: 20px;
+            font-size: 1.2em;
+            color: #004d40;
+        }
+    </style>
+</head>
+<body>
+    <h1>素因数分解ツール</h1>
+    <form id="factorization-form">
+        <label for="number">数値を入力してください:</label>
+        <input type="text" id="number" name="number" required>
+        <button type="submit">計算する</button>
+    </form>
+    <div id="result"></div>
+
+    <script>
+        document.getElementById('factorization-form').onsubmit = async function(e) {
+            e.preventDefault();
+            const number = document.getElementById('number').value;
+            const response = await fetch('API_GATEWAY_ENDPOINT', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ number: number })
+            });
+            const result = await response.json();
+            document.getElementById('result').innerText = `結果: ${result.factors}`;
+        };
+    </script>
+</body>
+</html>
